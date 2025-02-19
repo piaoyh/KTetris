@@ -1,2 +1,2 @@
-# KTetris
-This is for Keiin students.
+# Purpose
+This is for Keiin students to study how to design software.
