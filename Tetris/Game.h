@@ -18,6 +18,7 @@ public:
 	Game();
 
 	void display_board();
+	void display_block();
 	const char* get_board(short x, short y);
 };
 

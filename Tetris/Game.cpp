@@ -27,6 +27,19 @@ void Game::display_board()
 	}
 }
 
+void Game::display_block()
+{
+	short x = tetris.get_cur_pos_x();
+	short y = tetris.get_cur_pos_y();
+	Point* brick = tetris.get_brick();
+	for (int i = 0; i < 4; i++)
+	{
+		short xx = (x + brick[i].get_x()) * 2 + origin.get_x();
+		short yy = (y + brick[i].get_y()) + origin.get_y();
+		mvprint(xx, yy, BOARD_BRICK);
+	}
+}
+
 const char* Game::get_board(short x, short y)
 {
 	const char* brick;

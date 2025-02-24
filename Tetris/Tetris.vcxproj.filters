@@ -18,13 +18,13 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Tetris.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="screen.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Point.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -32,13 +32,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Point.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Tetris.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="screen.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Point.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
