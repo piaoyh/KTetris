@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="ScanCode.h" />
     <ClInclude Include="screen.h" />
     <ClInclude Include="Tetris.h" />
   </ItemGroup>

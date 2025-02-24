@@ -19,6 +19,10 @@ public:
 
 	void display_board();
 	void display_block();
+	void delete_block();
 	const char* get_board(short x, short y);
+	void rotate();
+	void move_left();
+	void move_right();
 };
 

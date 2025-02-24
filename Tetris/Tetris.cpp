@@ -97,12 +97,11 @@ void Tetris::rotate()
 	for (int i = 0; i < NUM_BRICK; i++)
 	{
 		short x = curPos.get_x() + brick[i].get_x();
-		if (x < 1)
+		if ((x < 1) || (x > WIDTH - 2))
 		{
 			curRot = rot;
 			return;
 		}
-			return;
 	}
 }
 
