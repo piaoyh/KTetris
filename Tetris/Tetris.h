@@ -16,5 +16,6 @@ class Tetris
 
 public:
 	Tetris();
+	inline char get_board(short x, short y) { return board[x][y]; }
 };
 
