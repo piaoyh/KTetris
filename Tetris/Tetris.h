@@ -21,7 +21,7 @@ class Tetris
 
 public:
 	Tetris();
-
+	void generate_block();
 	void rotate();
 	void move_left();
 	void move_right();

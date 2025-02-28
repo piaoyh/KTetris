@@ -88,6 +88,13 @@ Tetris::Tetris()
 	}
 }
 
+void Tetris::generate_block()
+{
+	curBlock = rand() % NUM_SHAPE;
+	curRot = rand() % 4;
+	curPos.set_xy(WIDTH / 2, 3);
+}
+
 bool Tetris::can_rotate()
 {
 	char rot = curRot;

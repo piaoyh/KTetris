@@ -29,7 +29,7 @@ bool Game::play()
 	display_block();
 	bool bCon	= true;
 	long t		= 0L;
-	long limit	= 200L;
+	long limit	= 150L;
 	while (bCon)
 	{
 		int ch = _kbhit();
@@ -61,9 +61,14 @@ bool Game::play()
 		if (t > limit)
 		{
 			if (!tetris.can_move_down())
+			{
 				tetris.put_block(BRICK);
+				tetris.generate_block();
+			}	
 			else
+			{
 				tetris.move_down();
+			}	
 			display_board();
 			display_block();
 			t = 0;
