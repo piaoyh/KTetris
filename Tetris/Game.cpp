@@ -1,8 +1,15 @@
+#include <iostream>
+#include <Windows.h>
+#include <conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <stdlib.h>
 #include <time.h>
 
+#include "ScanCode.h"
+#include "screen.h"
 #include "Game.h"
-#include "Screen.h"
 
 Game::Game()
 {
@@ -11,6 +18,42 @@ Game::Game()
 	origin = Point(x, y);
 	clear();
 	hide_cursor();
+}
+
+bool Game::play()
+{
+	display_board();
+	display_block();
+	bool    bCon = true;
+	while (bCon)
+	{
+		int ch = _kbhit();
+		if (!ch)
+			continue;
+		ch = _getch();
+		if (KEY_SPEC == ch || KEY_FUNC == ch)
+		{
+			ch = _getch();
+			switch (ch)
+			{
+			case KEY_RIGHT: move_right();  break;
+			case KEY_LEFT:  move_left();   break;
+			case KEY_UP:    rotate();      break;
+			case KEY_DOWN:  move_down();   break;
+			}
+		}
+		else
+		{
+			switch (ch)
+			{
+			case 'q':
+			case 27:
+				bCon = false;
+				break;
+			}
+		}
+	}
+	return false;
 }
 
 void Game::display_board()

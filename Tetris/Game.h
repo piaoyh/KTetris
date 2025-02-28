@@ -17,6 +17,7 @@ class Game
 public:
 	Game();
 
+	bool play();
 	void display_board();
 	void display_block();
 	void delete_block();
