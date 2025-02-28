@@ -13,5 +13,9 @@ public:
 	inline void set_y(short y)	{ this->y = y; }
 	inline short get_x()		{ return x; }
 	inline short get_y()		{ return y; }
+	inline void inc_x()	{ x++; }
+	inline void inc_y() { y++; }
+	inline void dec_x() { x--; }
+	inline void dec_y() { y--; }
 };
 

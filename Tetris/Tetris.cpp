@@ -88,7 +88,7 @@ Tetris::Tetris()
 	}
 }
 
-void Tetris::rotate()
+bool Tetris::can_rotate()
 {
 	char rot = curRot;
 	++curRot;
@@ -100,31 +100,72 @@ void Tetris::rotate()
 		if ((x < 1) || (x > WIDTH - 2))
 		{
 			curRot = rot;
-			return;
+			return false;
 		}
 	}
+	curRot = rot;
+	return true;
 }
 
-void Tetris::move_left()
+void Tetris::rotate()
+{
+	if (can_rotate())
+	{
+		++curRot;
+		curRot &= 0b11;
+	}
+
+}
+
+bool Tetris::can_move_left()
 {
 	Point* brick = get_brick();
 	for (int i = 0; i < NUM_BRICK; i++)
 	{
 		short x = curPos.get_x() + brick[i].get_x();
 		if (x < 2)
-			return;
+			return false;
 	}
-	curPos.set_x(curPos.get_x() - 1);
+	return true;
 }
 
-void Tetris::move_right()
+void Tetris::move_left()
+{
+	if (can_move_left())
+		curPos.dec_x();
+}
+
+bool Tetris::can_move_right()
 {
 	Point* brick = get_brick();
 	for (int i = 0; i < NUM_BRICK; i++)
 	{
 		short x = curPos.get_x() + brick[i].get_x();
 		if (x > WIDTH - 3)
-			return;
+			return false;
 	}
-	curPos.set_x(curPos.get_x() + 1);
+}
+
+void Tetris::move_right()
+{
+	if (can_move_right())
+		curPos.inc_x();
+}
+
+bool Tetris::can_move_down()
+{
+	Point* brick = get_brick();
+	for (int i = 0; i < NUM_BRICK; i++)
+	{
+		short y = curPos.get_y() + brick[i].get_y();
+		if (y > HEIGHT - 3)
+			return false;
+	}
+	return true;
+}
+
+void Tetris::move_down()
+{
+	if (can_move_down())
+		curPos.inc_y();
 }

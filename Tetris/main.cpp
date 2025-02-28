@@ -31,8 +31,7 @@ int main()
             case KEY_RIGHT: game.move_right();  break;
             case KEY_LEFT:  game.move_left();   break;
             case KEY_UP:    game.rotate();      break;
-            case KEY_DOWN:
-                break;
+            case KEY_DOWN:  game.move_down();   break;
             }
         }
         else

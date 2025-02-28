@@ -22,15 +22,20 @@ class Tetris
 public:
 	Tetris();
 
-	inline char get_board(short x, short y)	{ return board[x][y]; }
-	inline char get_cur_block()		{ return curBlock; }
-	inline Point get_cur_pos()		{ return curPos; }
-	inline short get_cur_pos_x()	{ return curPos.get_x(); }
-	inline short get_cur_pos_y()	{ return curPos.get_y(); }
-	Point* get_brick()				{ return block[curBlock][curRot]; }
-
-	void rotate();	
+	void rotate();
 	void move_left();
 	void move_right();
+	void move_down();
+	bool can_rotate();
+	bool can_move_left();
+	bool can_move_right();
+	bool can_move_down();
+
+	inline char get_board(short x, short y) { return board[x][y]; }
+	inline char get_cur_block() { return curBlock; }
+	inline Point get_cur_pos() { return curPos; }
+	inline short get_cur_pos_x() { return curPos.get_x(); }
+	inline short get_cur_pos_y() { return curPos.get_y(); }
+	inline Point* get_brick() { return block[curBlock][curRot]; }
 };
 

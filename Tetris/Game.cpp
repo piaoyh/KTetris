@@ -56,23 +56,42 @@ void Game::delete_block()
 
 void Game::rotate()
 {
-	delete_block();
-	tetris.rotate();
-	display_block();
+	if (tetris.can_rotate())
+	{
+		delete_block();
+		tetris.rotate();
+		display_block();
+	}
 }
 
 void Game::move_left()
 {
-	delete_block();
-	tetris.move_left();
-	display_block();
+	if (tetris.can_move_left())
+	{
+		delete_block();
+		tetris.move_left();
+		display_block();
+	}
 }
 
 void Game::move_right()
 {
-	delete_block();
-	tetris.move_right();
-	display_block();
+	if (tetris.can_move_right())
+	{
+		delete_block();
+		tetris.move_right();
+		display_block();
+	}
+}
+
+void Game::move_down()
+{
+	if (tetris.can_move_down())
+	{
+		delete_block();
+		tetris.move_down();
+		display_block();
+	}
 }
 
 const char* Game::get_board(short x, short y)
