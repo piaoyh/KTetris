@@ -193,3 +193,14 @@ void Tetris::move_down()
 	if (can_move_down())
 		curPos.inc_y();
 }
+
+void Tetris::put_block(char block)
+{
+	Point* brick = get_brick();
+	for (int i = 0; i < NUM_BRICK; i++)
+	{
+		short x = curPos.get_x() + brick[i].get_x();
+		short y = curPos.get_y() + brick[i].get_y();
+		set_board(x, y, BRICK);
+	}
+}

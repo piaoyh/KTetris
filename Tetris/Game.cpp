@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
@@ -22,36 +24,53 @@ Game::Game()
 
 bool Game::play()
 {
+	char tt[10];
 	display_board();
 	display_block();
-	bool    bCon = true;
+	bool bCon	= true;
+	long t		= 0L;
+	long limit	= 200L;
 	while (bCon)
 	{
 		int ch = _kbhit();
-		if (!ch)
-			continue;
-		ch = _getch();
-		if (KEY_SPEC == ch || KEY_FUNC == ch)
+		if (ch)
 		{
 			ch = _getch();
-			switch (ch)
+			if (KEY_SPEC == ch || KEY_FUNC == ch)
 			{
-			case KEY_RIGHT: move_right();  break;
-			case KEY_LEFT:  move_left();   break;
-			case KEY_UP:    rotate();      break;
-			case KEY_DOWN:  move_down();   break;
+				ch = _getch();
+				switch (ch)
+				{
+				case KEY_RIGHT: move_right();  break;
+				case KEY_LEFT:  move_left();   break;
+				case KEY_UP:    rotate();      break;
+				case KEY_DOWN:  move_down();   break;
+				}
+			}
+			else
+			{
+				switch (ch)
+				{
+				case 'q':
+				case 27:
+					bCon = false;
+					break;
+				}
 			}
 		}
-		else
+		if (t > limit)
 		{
-			switch (ch)
-			{
-			case 'q':
-			case 27:
-				bCon = false;
-				break;
-			}
+			if (!tetris.can_move_down())
+				tetris.put_block(BRICK);
+			else
+				tetris.move_down();
+			display_board();
+			display_block();
+			t = 0;
 		}
+		t++;
+		Sleep(10);
+		mvprint(0, 0, _itoa(t, tt, 10));
 	}
 	return false;
 }
