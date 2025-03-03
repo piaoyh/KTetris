@@ -18,13 +18,15 @@ public:
 	Game();
 
 	bool play();
+	bool generate();
 	void display_board();
 	void display_block();
 	void delete_block();
 	const char* get_board(short x, short y);
-	void rotate();
-	void move_left();
-	void move_right();
-	void move_down();
+	bool rotate();
+	bool move_left();
+	bool move_right();
+	bool move_down();
+	void drop();
 };
 

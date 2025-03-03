@@ -65,9 +65,12 @@ Point	Tetris::block[NUM_SHAPE][4][NUM_BRICK] = {
 
 Tetris::Tetris()
 {
-	curBlock = rand() % NUM_SHAPE;
-	curRot = rand() % 4;
-	curPos.set_xy(WIDTH / 2, 3);
+	generate();
+	init();
+}
+
+void Tetris::init()
+{
 	for (int x = 0; x < WIDTH; x++)
 	{
 		for (int y = 0; y < HEIGHT; y++)
@@ -84,15 +87,24 @@ Tetris::Tetris()
 	for (int y = 0; y < HEIGHT; y++)
 	{
 		board[0][y] = WALL;
-		board[WIDTH-1][y] = WALL;
+		board[WIDTH - 1][y] = WALL;
 	}
 }
 
-void Tetris::generate_block()
+bool Tetris::generate()
 {
 	curBlock = rand() % NUM_SHAPE;
 	curRot = rand() % 4;
 	curPos.set_xy(WIDTH / 2, 3);
+	Point* brick = get_brick();
+	for (int i = 0; i < NUM_BRICK; i++)
+	{
+		short x = curPos.get_x() + brick[i].get_x();
+		short y = curPos.get_y() + brick[i].get_y();
+		if (get_board(x, y) != EMPTY)
+			return false;
+	}
+	return true;
 }
 
 bool Tetris::can_rotate()
@@ -105,8 +117,7 @@ bool Tetris::can_rotate()
 	{
 		short x = curPos.get_x() + brick[i].get_x();
 		short y = curPos.get_y() + brick[i].get_y();
-		char place = get_board(x, y);
-		if (EMPTY != place)
+		if (get_board(x, y) != EMPTY)
 		{
 			curRot = rot;
 			return false;
@@ -114,16 +125,6 @@ bool Tetris::can_rotate()
 	}
 	curRot = rot;
 	return true;
-}
-
-void Tetris::rotate()
-{
-	if (can_rotate())
-	{
-		++curRot;
-		curRot &= 0b11;
-	}
-
 }
 
 bool Tetris::can_move_left()
@@ -134,21 +135,14 @@ bool Tetris::can_move_left()
 	{
 		short x = curPos.get_x() + brick[i].get_x();
 		short y = curPos.get_y() + brick[i].get_y();
-		char place = get_board(x, y);
-		if (EMPTY != place)
+		if (get_board(x, y) != EMPTY)
 		{
 			curPos.inc_x();
 			return false;
 		}
 	}
-	curPos.inc_x();
+	curPos.set_x(curPos.get_x() + 1);
 	return true;
-}
-
-void Tetris::move_left()
-{
-	if (can_move_left())
-		curPos.dec_x();
 }
 
 bool Tetris::can_move_right()
@@ -159,21 +153,14 @@ bool Tetris::can_move_right()
 	{
 		short x = curPos.get_x() + brick[i].get_x();
 		short y = curPos.get_y() + brick[i].get_y();
-		char place = get_board(x, y);
-		if (EMPTY != place)
+		if (get_board(x, y) != EMPTY)
 		{
 			curPos.dec_x();
 			return false;
 		}
 	}
-	curPos.dec_x();
+	curPos.set_x(curPos.get_x() - 1);
 	return true;
-}
-
-void Tetris::move_right()
-{
-	if (can_move_right())
-		curPos.inc_x();
 }
 
 bool Tetris::can_move_down()
@@ -184,30 +171,63 @@ bool Tetris::can_move_down()
 	{
 		short x = curPos.get_x() + brick[i].get_x();
 		short y = curPos.get_y() + brick[i].get_y();
-		char place = get_board(x, y);
-		if (EMPTY != place)
+		if (get_board(x, y) != EMPTY)
 		{
 			curPos.dec_y();
 			return false;
 		}
 	}
-	curPos.dec_y();
+	curPos.set_y(curPos.get_y() - 1);
 	return true;
 }
 
-void Tetris::move_down()
+bool Tetris::rotate()
 {
-	if (can_move_down())
-		curPos.inc_y();
+	bool rotated = can_rotate();
+	if (rotated)
+	{
+		++curRot;
+		curRot &= 0b11;
+	}
+	return rotated;
 }
 
-void Tetris::put_block(char block)
+bool Tetris::move_left()
+{
+	bool moved = can_move_left();
+	if (moved)
+		curPos.dec_x();
+	return moved;
+}
+
+bool Tetris::move_right()
+{
+	bool moved = can_move_right();
+	if (can_move_right())
+		curPos.inc_x();
+	return moved;
+}
+
+bool Tetris::move_down()
+{
+	bool moved = can_move_down();
+	if (moved)
+		curPos.inc_y();
+	return moved;
+}
+
+void Tetris::drop()
+{
+	while (move_down());
+}
+
+void Tetris::stack()
 {
 	Point* brick = get_brick();
 	for (int i = 0; i < NUM_BRICK; i++)
 	{
 		short x = curPos.get_x() + brick[i].get_x();
 		short y = curPos.get_y() + brick[i].get_y();
-		set_board(x, y, BRICK);
+		set_board(x, y);
 	}
 }

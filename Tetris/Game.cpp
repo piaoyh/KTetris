@@ -1,17 +1,15 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <stdlib.h>
-#include <time.h>
 
-#include "ScanCode.h"
-#include "screen.h"
 #include "Game.h"
+#include "Screen.h"
+#include "ScanCode.h"
+
+using namespace std;
 
 Game::Game()
 {
@@ -24,12 +22,12 @@ Game::Game()
 
 bool Game::play()
 {
-	char tt[10];
+	unsigned int    period = 100;
+	unsigned int    tick = 0;
+
 	display_board();
 	display_block();
-	bool bCon	= true;
-	long t		= 0L;
-	long limit	= 150L;
+	bool    bCon = true;
 	while (bCon)
 	{
 		int ch = _kbhit();
@@ -51,33 +49,55 @@ bool Game::play()
 			{
 				switch (ch)
 				{
+				case ' ':	drop();			break;
 				case 'q':
-				case 27:
-					bCon = false;
-					break;
+				case 27:	bCon = false;	break;
 				}
 			}
 		}
-		if (t > limit)
+		if (tick > period)
 		{
-			if (!tetris.can_move_down())
+			tick = 0;
+			if (!move_down())
 			{
-				tetris.put_block(BRICK);
-				tetris.generate_block();
-			}	
-			else
-			{
-				tetris.move_down();
-			}	
-			display_board();
-			display_block();
-			t = 0;
+				tetris.stack();
+				if (!generate())
+				{
+					mvprint(0, 0, "Game Over");
+					mvprint(0, 1, "Play again?");
+					char answer = 0;
+					cin >> answer;
+					if (('y' == answer) || ('Y' == answer))
+					{
+						mvprint(0, 0, "         ");
+						mvprint(0, 1, "           ");
+						mvprint(0, 2, ' ');
+
+						tetris.init();
+						display_board();
+						generate();
+						display_block();
+					}
+					else
+					{
+						bCon = false;
+					}
+				}
+				continue;
+			}
 		}
-		t++;
+		tick++;
 		Sleep(10);
-		mvprint(0, 0, _itoa(t, tt, 10));
 	}
-	return false;
+	return true;
+}
+
+bool Game::generate()
+{
+	bool generated = tetris.generate();
+	if (generated)
+		display_board();
+	return generated;
 }
 
 void Game::display_board()
@@ -121,44 +141,41 @@ void Game::delete_block()
 	}
 }
 
-void Game::rotate()
+bool Game::rotate()
 {
-	if (tetris.can_rotate())
-	{
-		delete_block();
-		tetris.rotate();
-		display_block();
-	}
+	delete_block();
+	bool rotated = tetris.rotate();
+	display_block();
+	return rotated;
 }
 
-void Game::move_left()
+bool Game::move_left()
 {
-	if (tetris.can_move_left())
-	{
-		delete_block();
-		tetris.move_left();
-		display_block();
-	}
+	delete_block();
+	bool moved = tetris.move_left();
+	display_block();
+	return moved;
 }
 
-void Game::move_right()
+bool Game::move_right()
 {
-	if (tetris.can_move_right())
-	{
-		delete_block();
-		tetris.move_right();
-		display_block();
-	}
+	delete_block();
+	bool moved = tetris.move_right();
+	display_block();
+	return moved;
 }
 
-void Game::move_down()
+bool Game::move_down()
 {
-	if (tetris.can_move_down())
-	{
-		delete_block();
-		tetris.move_down();
-		display_block();
-	}
+	delete_block();
+	bool moved = tetris.move_down();
+	display_block();
+	return moved;
+}
+
+void Game::drop()
+{
+	while (move_down());
 }
 
 const char* Game::get_board(short x, short y)
