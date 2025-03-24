@@ -61,10 +61,13 @@ bool Game::play()
 			if (!move_down())
 			{
 				tetris.stack();
+				display_board();
+				tetris.push_lines_down();
+				display_board();
 				if (!generate())
 				{
 					mvprint(0, 0, "Game Over");
-					mvprint(0, 1, "Play again?");
+					mvprint(0, 1, "Play again? (y/n)");
 					char answer = 0;
 					cin >> answer;
 					if (('y' == answer) || ('Y' == answer))
@@ -83,7 +86,6 @@ bool Game::play()
 						bCon = false;
 					}
 				}
-				continue;
 			}
 		}
 		tick++;
@@ -143,33 +145,49 @@ void Game::delete_block()
 
 bool Game::rotate()
 {
-	delete_block();
-	bool rotated = tetris.rotate();
-	display_block();
+	bool rotated = false;
+	if (tetris.can_rotate())
+	{
+		delete_block();
+		rotated = tetris.rotate();
+		display_block();
+	}
 	return rotated;
 }
 
 bool Game::move_left()
 {
-	delete_block();
-	bool moved = tetris.move_left();
-	display_block();
+	bool moved = false;
+	if (tetris.can_move_left())
+	{
+		delete_block();
+		moved = tetris.move_left();
+		display_block();
+	}
 	return moved;
 }
 
 bool Game::move_right()
 {
-	delete_block();
-	bool moved = tetris.move_right();
-	display_block();
+	bool moved = false;
+	if (tetris.can_move_right())
+	{
+		delete_block();
+		moved = tetris.move_right();
+		display_block();
+	}
 	return moved;
 }
 
 bool Game::move_down()
 {
-	delete_block();
-	bool moved = tetris.move_down();
-	display_block();
+	bool moved = false;
+	if (tetris.can_move_down())
+	{
+		delete_block();
+		moved = tetris.move_down();
+		display_block();
+	}
 	return moved;
 }
 

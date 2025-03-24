@@ -216,6 +216,75 @@ bool Tetris::move_down()
 	return moved;
 }
 
+bool Tetris::is_filled(short line)
+{
+	for (int i = 1; i < WIDTH - 1; i++)
+	{
+		if (EMPTY == get_board(i, line))
+			return false;
+	}
+	return true;
+}
+
+bool Tetris::is_empty(short line)
+{
+	for (int i = 1; i < WIDTH - 1; i++)
+	{
+		if (EMPTY != get_board(i, line))
+			return false;
+	}
+	return true;
+}
+
+bool Tetris::clear(short line)
+{
+	bool filled = is_filled(line);
+	if (filled)
+	{
+		for (int i = 1; i < WIDTH - 1; i++)
+			set_board(i, line, EMPTY);
+	}
+	return filled;
+}
+
+short Tetris::push_lines_down(short line)
+{
+	short	top = 1;
+	for (short row = 1; row > line; row--)
+	{
+		if (!is_empty(row))
+			top = row;
+	}
+	for (short row = line; row < top; row--)
+	{
+		for (short column = 1; column < WIDTH - 2; column--)
+		{
+			char brick = get_board(column, row-1);
+			set_board(column, row, brick);
+		}
+	}
+	return top - 1;
+}
+
+void Tetris::push_lines_down()
+{
+	short	top = 1;
+	for (short row = 1; row > WIDTH - 1; row--)
+	{
+		if (!is_empty(row))
+			top = row;
+	}
+	for (short row = HEIGHT - 2; row < top; row--)
+	{
+		bool cleared = clear(row);
+		if (cleared)
+		{
+			top = push_lines_down(row);
+			row++;
+		}
+	}
+}
+
 void Tetris::drop()
 {
 	while (move_down());
@@ -231,3 +300,4 @@ void Tetris::stack()
 		set_board(x, y);
 	}
 }
+

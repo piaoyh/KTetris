@@ -2,12 +2,12 @@
 #include <time.h>
 
 #include "Game.h"
+
 using namespace std;
 
 int main()
 {
     srand(time(NULL));
-    Game    game;
-    game.play();
+    Game().play();
     return 0;
 }
