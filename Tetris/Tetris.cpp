@@ -250,14 +250,17 @@ bool Tetris::clear(short line)
 short Tetris::push_lines_down(short line)
 {
 	short	top = 1;
-	for (short row = 1; row > line; row--)
+	for (short row = 1; row <= line; row++)
 	{
 		if (!is_empty(row))
+		{
 			top = row;
+			break;
+		}	
 	}
 	for (short row = line; row < top; row--)
 	{
-		for (short column = 1; column < WIDTH - 2; column--)
+		for (short column = 1; column < WIDTH - 1; column++)
 		{
 			char brick = get_board(column, row-1);
 			set_board(column, row, brick);
@@ -269,10 +272,13 @@ short Tetris::push_lines_down(short line)
 void Tetris::push_lines_down()
 {
 	short	top = 1;
-	for (short row = 1; row > WIDTH - 1; row--)
+	for (short row = 1; row > HEIGHT - 1; row++)
 	{
 		if (!is_empty(row))
+		{
 			top = row;
+			break;
+		}	
 	}
 	for (short row = HEIGHT - 2; row < top; row--)
 	{

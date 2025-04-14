@@ -41,10 +41,10 @@
     <ClInclude Include="screen.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="ScanCode.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ScanCode.h">
+    <ClInclude Include="Game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
