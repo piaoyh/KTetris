@@ -89,6 +89,7 @@ void Tetris::init()
 		board[0][y] = WALL;
 		board[WIDTH - 1][y] = WALL;
 	}
+	score = 0;
 }
 
 bool Tetris::generate()
@@ -243,6 +244,7 @@ bool Tetris::clear(short line)
 	{
 		for (int i = 1; i < WIDTH - 1; i++)
 			set_board(i, line, EMPTY);
+		score += 10;
 	}
 	return filled;
 }
@@ -258,7 +260,7 @@ short Tetris::push_lines_down(short line)
 			break;
 		}	
 	}
-	for (short row = line; row < top; row--)
+	for (short row = line; row >= top; row--)	// < -> >=
 	{
 		for (short column = 1; column < WIDTH - 1; column++)
 		{
@@ -272,7 +274,7 @@ short Tetris::push_lines_down(short line)
 void Tetris::push_lines_down()
 {
 	short	top = 1;
-	for (short row = 1; row > HEIGHT - 1; row++)
+	for (short row = 1; row < HEIGHT - 1; row++)  // > -> <
 	{
 		if (!is_empty(row))
 		{
@@ -280,7 +282,7 @@ void Tetris::push_lines_down()
 			break;
 		}	
 	}
-	for (short row = HEIGHT - 2; row < top; row--)
+	for (short row = HEIGHT - 2; row > top; row--) // < -> >
 	{
 		bool cleared = clear(row);
 		if (cleared)

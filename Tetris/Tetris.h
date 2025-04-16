@@ -12,13 +12,13 @@
 
 class Tetris
 {
-
 	static Point	block[NUM_SHAPE][4][NUM_BRICK];
 
 	char	board[WIDTH][HEIGHT];
 	char	curBlock;
 	char	curRot;
 	Point	curPos;
+	unsigned int	score;
 
 public:
 	Tetris();
@@ -30,7 +30,8 @@ public:
 	inline Point get_cur_pos()		{ return curPos; }
 	inline short get_cur_pos_x()	{ return curPos.get_x(); }
 	inline short get_cur_pos_y()	{ return curPos.get_y(); }
-	Point* get_brick()				{ return block[curBlock][curRot]; }
+	inline Point* get_brick()		{ return block[curBlock][curRot]; }
+	inline unsigned int get_score() { return score; }
 
 	bool can_rotate();
 	bool can_move_left();

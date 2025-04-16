@@ -1,3 +1,4 @@
+#define  _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
@@ -22,7 +23,7 @@ Game::Game()
 
 bool Game::play()
 {
-	unsigned int    period = 100;
+	unsigned int    period = 50;
 	unsigned int    tick = 0;
 
 	display_board();
@@ -114,6 +115,9 @@ void Game::display_board()
 			mvprint(xx, yy, brick);
 		}
 	}
+	char	sco[16];
+	sprintf(sco, "Score: %d", tetris.get_score());
+	mvprint(0, 0, sco);
 }
 
 void Game::display_block()
