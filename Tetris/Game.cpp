@@ -23,7 +23,7 @@ Game::Game()
 
 bool Game::play()
 {
-	unsigned int    period = 50;
+	unsigned int	period = 50;
 	unsigned int    tick = 0;
 
 	display_board();
